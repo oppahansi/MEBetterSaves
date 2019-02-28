@@ -4,28 +4,40 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MEBetterSaves"
-        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
-        Title="Metro Exodus Better Saves" Height="720" Width="1280">
+        Title="Metro Exodus Better Saves" Height="720" Width="1280" >
     <Grid x:Name="saveGamesGrid">
-        <TabControl x:Name="tabControl" HorizontalAlignment="Left" Height="579" Margin="10,10,0,0" VerticalAlignment="Top" Width="1252">
-            <TabItem x:Name="deadMoscowTab" Header="Dead Moscow">
-                <Grid Background="#FF3F3F46">
-                    <ListBox x:Name="datesListBox0" HorizontalAlignment="Left" Height="478" Margin="10,46,0,0" VerticalAlignment="Top" Width="261" Grid.ColumnSpan="2" />
-                    <Label x:Name="datesLabel0" Content="Dates" Margin="10,10,0,0" VerticalAlignment="Top" Foreground="#FF60B6E6" FontSize="16" HorizontalAlignment="Left" Width="261" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.ColumnSpan="2"/>
-                    <ListBox x:Name="autoSavesListBox0" HorizontalAlignment="Left" Height="478" Margin="288,46,0,0" VerticalAlignment="Top" Width="361"/>
-                    <Label x:Name="autoSavesLabel0" Content="Auto Saves" Margin="288,10,0,0" VerticalAlignment="Top" Foreground="#FF60B6E6" FontSize="16" HorizontalAlignment="Left" Width="361" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                    <ListBox x:Name="quickSavesListBox0" HorizontalAlignment="Left" Height="478" Margin="667,46,0,0" VerticalAlignment="Top" Width="361"/>
-                    <Label x:Name="quickSavesLabel0" Content="Quick Saves" Margin="667,10,0,0" VerticalAlignment="Top" Foreground="#FF60B6E6" FontSize="16" HorizontalAlignment="Left" Width="361" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                </Grid>
-            </TabItem>
-        </TabControl>
-        <TextBox x:Name="metroSaveGamesPath" HorizontalAlignment="Left" Height="23" Margin="10,620,0,0" TextWrapping="Wrap" Text="C:\Users\oppa\Saved Games\metro exodus\27b06ebfa84e4b37ac596695a25ebc15" VerticalAlignment="Top" Width="522"/>
-        <Label x:Name="metroSaveGamesFolderLabel" Content="Metro Save Games Folder" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,594,0,0" RenderTransformOrigin="1.826,0.844"/>
-        <Label x:Name="metroBetterSaveGamesFolderLabel" Content="Metro Better Save Games Folder" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="565,594,0,0" RenderTransformOrigin="1.826,0.844"/>
-        <TextBox x:Name="metroBetterSaveGamesPath" HorizontalAlignment="Left" Height="23" Margin="565,620,0,0" TextWrapping="Wrap" Text="C:\Users\oppa\Saved Games\metro exodus\27b06ebfa84e4b37ac596695a25ebc15" VerticalAlignment="Top" Width="522"/>
-        <Button x:Name="setMetroSavesGamesPathButton" Content="Set Location" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="10,651,0,0"/>
-        <Button x:Name="setMetroBetterSavesGamesPathButton" Content="Set Location" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="565,651,0,0"/>
+        <Grid Background="#FF3F3F46">
+            <Image x:Name="autoSaveImage" HorizontalAlignment="Left" Height="218" Margin="292,306,0,0" VerticalAlignment="Top" Width="361" MouseLeftButtonDown="AutoSaveImageOnMouseLeftButtonDown" Loaded="AutoSaveImageLoaded" />
+            <Image x:Name="quickSaveImage" HorizontalAlignment="Left" Height="218" Margin="658,306,0,0" VerticalAlignment="Top" Width="361" MouseLeftButtonDown="QuickSaveImageOnMouseLeftButtonDown" Loaded="QuickSaveImageLoaded" />
+            <ListBox x:Name="datesListBox" HorizontalAlignment="Left" Height="255" Margin="26,46,0,0" VerticalAlignment="Top" Width="261" />
+            <Label x:Name="datesLabel" Content="Dates" Margin="26,10,0,0" VerticalAlignment="Top" Foreground="#FF60B6E6" FontSize="16" HorizontalAlignment="Left" Width="261" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <ListBox x:Name="autoSavesListBox" HorizontalAlignment="Left" Height="255" Margin="292,46,0,0" VerticalAlignment="Top" Width="361" SelectionChanged="OnAutoSaveSelectionChanged"/>
+            <Label x:Name="autoSavesLabel" Content="Auto Saves" Margin="292,10,0,0" VerticalAlignment="Top" Foreground="#FF60B6E6" FontSize="16" HorizontalAlignment="Left" Width="361" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <ListBox x:Name="quickSavesListBox" HorizontalAlignment="Left" Height="255" Margin="658,46,0,0" VerticalAlignment="Top" Width="361" SelectionChanged="OnQuickSaveSelectionChanged" />
+            <Label x:Name="quickSavesLabel" Content="Quick Saves" Margin="658,10,0,0" VerticalAlignment="Top" Foreground="#FF60B6E6" FontSize="16" HorizontalAlignment="Left" Width="361" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <RadioButton x:Name="chapter0" Tag="0" GroupName="chapters" Content="Dead Moscow" HorizontalAlignment="Left" Margin="1084,120,0,0" VerticalAlignment="Top"  Foreground="#FF60B6E6" FontSize="20"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Checked="OnRadioButtonChecked"/>
+            <RadioButton x:Name="chapter1" Tag="1" GroupName="chapters" Content="Winter" HorizontalAlignment="Left" Margin="1084,151,0,0" VerticalAlignment="Top"  Foreground="#FF60B6E6" FontSize="20"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Checked="OnRadioButtonChecked"/>
+            <RadioButton x:Name="chapter2" Tag="2" GroupName="chapters" Content="Bridge" HorizontalAlignment="Left" Margin="1084,182,0,0" VerticalAlignment="Top"  Foreground="#FF60B6E6" FontSize="20"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Checked="OnRadioButtonChecked"/>
+            <RadioButton x:Name="chapter3" Tag="3" GroupName="chapters" Content="Spring" HorizontalAlignment="Left" Margin="1084,213,0,0" VerticalAlignment="Top"  Foreground="#FF60B6E6" FontSize="20"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Checked="OnRadioButtonChecked"/>
+            <RadioButton x:Name="chapter4" Tag="4" GroupName="chapters" Content="Yamantau" HorizontalAlignment="Left" Margin="1084,244,0,0" VerticalAlignment="Top"  Foreground="#FF60B6E6" FontSize="20"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Checked="OnRadioButtonChecked"/>
+            <RadioButton x:Name="chapter5" Tag="5" GroupName="chapters" Content="Desert" HorizontalAlignment="Left" Margin="1084,275,0,0" VerticalAlignment="Top"  Foreground="#FF60B6E6" FontSize="20"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Checked="OnRadioButtonChecked"/>
+            <RadioButton x:Name="chapter6" Tag="6" GroupName="chapters" Content="Summer" HorizontalAlignment="Left" Margin="1084,306,0,0" VerticalAlignment="Top"  Foreground="#FF60B6E6" FontSize="20"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Checked="OnRadioButtonChecked"/>
+            <RadioButton x:Name="chapter7" Tag="7" GroupName="chapters" Content="Autum" HorizontalAlignment="Left" Margin="1084,337,0,0" VerticalAlignment="Top"  Foreground="#FF60B6E6" FontSize="20"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Checked="OnRadioButtonChecked"/>
+            <RadioButton x:Name="chapter8" Tag="8" GroupName="chapters" Content="Valley" HorizontalAlignment="Left" Margin="1084,368,0,0" VerticalAlignment="Top"  Foreground="#FF60B6E6" FontSize="20"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Checked="OnRadioButtonChecked"/>
+            <RadioButton x:Name="chapter9" Tag="9" GroupName="chapters" Content="Dead City" HorizontalAlignment="Left" Margin="1084,399,0,0" VerticalAlignment="Top"  Foreground="#FF60B6E6" FontSize="20"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Checked="OnRadioButtonChecked"/>
+            <RadioButton x:Name="chapter10" Tag="10" GroupName="chapters" Content="Outro" HorizontalAlignment="Left" Margin="1084,430,0,0" VerticalAlignment="Top"  Foreground="#FF60B6E6" FontSize="20"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Checked="OnRadioButtonChecked"/>
+            <Label x:Name="datesLabel0_Copy" Content="Chapters" Margin="1084,73,0,0" VerticalAlignment="Top" Foreground="#FF60B6E6" FontSize="20" HorizontalAlignment="Left" Width="129" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <Button x:Name="loadButton" Content="Load Selected Save Games" HorizontalAlignment="Left" Margin="26,337,0,0" VerticalAlignment="Top" Width="261" Height="31" Click="LoadButtonClick"/>
+            <Button x:Name="restartButton" Content="Restart Game" HorizontalAlignment="Left" Margin="26,430,0,0" VerticalAlignment="Top" Width="261" Height="31" Click="RestartButtonClick"/>
+        </Grid>
+        <TextBox x:Name="metroSaveGamesPath" HorizontalAlignment="Left" Height="23" Margin="23,614,0,0" TextWrapping="Wrap" Text="C:\Users\oppa\Saved Games\metro exodus\27b06ebfa84e4b37ac596695a25ebc15" VerticalAlignment="Top" Width="522"/>
+        <Label x:Name="metroSaveGamesFolderLabel" Content="Metro Save Games Folder" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="23,588,0,0" RenderTransformOrigin="1.826,0.844"/>
+        <Label x:Name="metroBetterSaveGamesFolderLabel" Content="Metro Better Save Games Folder" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="578,588,0,0" RenderTransformOrigin="1.826,0.844"/>
+        <TextBox x:Name="metroBetterSaveGamesPath" HorizontalAlignment="Left" Height="23" Margin="578,614,0,0" TextWrapping="Wrap" Text="C:\Users\oppa\Saved Games\metro exodus\27b06ebfa84e4b37ac596695a25ebc15" VerticalAlignment="Top" Width="522"/>
+        <Button x:Name="setMetroSavesGamesPathButton" Content="Set Location" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="23,645,0,0" Click="SetMetroSavesGamesPathButton_Click"/>
+        <Button x:Name="setMetroBetterSavesGamesPathButton" Content="Set Location" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="578,645,0,0" Click="SetMetroBetterSavesGamesPathButton_Click"/>
+        <Label x:Name="loadedLabel" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="23,381,0,0" RenderTransformOrigin="1.826,0.844"/>
 
     </Grid>
 </Window>
