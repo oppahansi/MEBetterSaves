@@ -44,14 +44,16 @@ namespace MEBetterSaves
 
         public void CreateFileWatcher()
         {
+            var interval = int.Parse(Config["saveGamesCheckInterval"]);
+
             AutoSaveTimer = new Timer(_ =>
             {
                 var tasks = new List<Task>();
                 tasks.Add(Task.Factory.StartNew(() => { CheckAutoSave(); }));
             },
                 null,
-                TimeSpan.FromSeconds(5),
-                TimeSpan.FromSeconds(5));
+                TimeSpan.FromSeconds(interval),
+                TimeSpan.FromSeconds(interval));
 
             QuickSaveTimer = new Timer(_ =>
             {
@@ -59,8 +61,8 @@ namespace MEBetterSaves
                 tasks.Add(Task.Factory.StartNew(() => { CheckQuickSave(); }));
             },
                 null,
-                TimeSpan.FromSeconds(5),
-                TimeSpan.FromSeconds(5));
+                TimeSpan.FromSeconds(interval),
+                TimeSpan.FromSeconds(interval));
         }
 
         private void CheckAutoSave()

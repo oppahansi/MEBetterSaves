@@ -80,8 +80,6 @@ namespace MEBetterSaves
             datesListBox.Items.Clear();
             quickSavesListBox.Items.Clear();
             autoSavesListBox.Items.Clear();
-            quickSaveImage.Source = null;
-            autoSaveImage.Source = null;
 
             if (Config["metroSaveGamesFolder"] == "." || Config["betterSaveGamesFolder"] == ".")
                 return;
@@ -105,10 +103,16 @@ namespace MEBetterSaves
         {
             var chapterName = ChapterNames[RadioButtonSelectedIndex];
 
+            if (datesListBox.SelectedIndex >= 0)
+                DateListSelectedIndex = datesListBox.SelectedIndex;
+
             if (datesListBox.SelectedItem == null)
                 return;
 
             var folderPath = Config["betterSaveGamesFolder"] + "\\" + chapterName + "\\" + datesListBox.SelectedItem.ToString();
+
+            AutoSavesSelectedIndex = 0;
+            QuickSaveSelectedIndex = 0;
 
             PopulateListBox(autoSavesListBox, folderPath, "auto");
             PopulateListBox(quickSavesListBox, folderPath, "quick");
@@ -180,8 +184,6 @@ namespace MEBetterSaves
 
         private void PopulateDatesListBox(ListBox lsb, string folder)
         {
-            DateListSelectedIndex = datesListBox.SelectedIndex;
-
             lsb.Items.Clear();
 
             if (!Directory.Exists(folder))
@@ -201,23 +203,14 @@ namespace MEBetterSaves
                 lsb.Items.Add(dir.Name);
             }
 
-            if (DateListSelectedIndex < 0)
-            {
-                datesListBox.SelectedIndex= 0;
-                DateListSelectedIndex = 0;
+            datesListBox.SelectedIndex = DateListSelectedIndex;
 
-                if (datesListBox.Items.Count > 0)
-                    datesListBox.SelectedItem = datesListBox.Items[0];
-            }
+            if (datesListBox.Items.Count > 0 && datesListBox.Items.Count > DateListSelectedIndex)
+                datesListBox.SelectedItem = datesListBox.Items[DateListSelectedIndex];
         }
 
         private void PopulateListBox(ListBox lsb, string folder, string saveType)
         {
-            if (saveType == "auto")
-                AutoSavesSelectedIndex = lsb.SelectedIndex;
-            else
-                QuickSaveSelectedIndex = lsb.SelectedIndex;
-
             lsb.Items.Clear();
 
             if (!Directory.Exists(folder))
@@ -241,39 +234,17 @@ namespace MEBetterSaves
 
             if (saveType == "auto")
             {
-                if (AutoSavesSelectedIndex < 0)
-                {
-                    autoSavesListBox.SelectedIndex = 0;
-                    AutoSavesSelectedIndex = 0;
+                autoSavesListBox.SelectedIndex = AutoSavesSelectedIndex;
 
-                    if (autoSavesListBox.Items.Count > 0)
-                        autoSavesListBox.SelectedItem = autoSavesListBox.Items[0];
-                }
-                else
-                {
-                    autoSavesListBox.SelectedIndex = AutoSavesSelectedIndex;
-
-                    if (autoSavesListBox.Items.Count > 0)
-                        autoSavesListBox.SelectedItem = autoSavesListBox.Items[AutoSavesSelectedIndex];
-                }
+                if (autoSavesListBox.Items.Count > 0 && autoSavesListBox.Items.Count > AutoSavesSelectedIndex)
+                    autoSavesListBox.SelectedItem = autoSavesListBox.Items[AutoSavesSelectedIndex];
             }
             else
             {
-                if (QuickSaveSelectedIndex < 0)
-                {
-                    quickSavesListBox.SelectedIndex = 0;
-                    QuickSaveSelectedIndex = 0;
+                quickSavesListBox.SelectedIndex = QuickSaveSelectedIndex;
 
-                    if (quickSavesListBox.Items.Count > 0)
-                        quickSavesListBox.SelectedItem = quickSavesListBox.Items[0];
-                }
-                else
-                {
-                    quickSavesListBox.SelectedIndex = AutoSavesSelectedIndex;
-
-                    if (quickSavesListBox.Items.Count > 0)
-                        quickSavesListBox.SelectedItem = quickSavesListBox.Items[QuickSaveSelectedIndex];
-                }
+                if (quickSavesListBox.Items.Count > 0 && quickSavesListBox.Items.Count > QuickSaveSelectedIndex)
+                    quickSavesListBox.SelectedItem = quickSavesListBox.Items[QuickSaveSelectedIndex];
             }
         }
 
@@ -386,18 +357,31 @@ namespace MEBetterSaves
         private void OnRadioButtonChecked(object sender, RoutedEventArgs e)
         {
             var radioButton = (RadioButton)sender;
+            var checkedIndex = int.Parse(radioButton.Tag.ToString());
 
-            RadioButtonSelectedIndex = int.Parse(radioButton.Tag.ToString());
-
-            RefreshListBoxes();
+            if (RadioButtonSelectedIndex != checkedIndex)
+            {
+                DateListSelectedIndex = 0;
+                AutoSavesSelectedIndex = 0;
+                QuickSaveSelectedIndex = 0;
+                AutoSaveImageSource = null;
+                QuickSaveImageSource = null;
+                autoSaveImage.Source = null;
+                quickSaveImage.Source = null;
+                RadioButtonSelectedIndex = checkedIndex;
+                RefreshListBoxes();
+            }
+            
         }
 
         private void OnQuickSaveSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (datesListBox.SelectedItem != null && quickSavesListBox.SelectedItem != null)
             {
-                var imageFile = Config["betterSaveGamesFolder"] + $"\\{ChapterNames[RadioButtonSelectedIndex]}\\{datesListBox.SelectedItem.ToString()}\\{quickSavesListBox.SelectedItem.ToString()}.png";
+                if (quickSavesListBox.SelectedIndex >= 0)
+                    QuickSaveSelectedIndex = quickSavesListBox.SelectedIndex;
 
+                var imageFile = Config["betterSaveGamesFolder"] + $"\\{ChapterNames[RadioButtonSelectedIndex]}\\{datesListBox.SelectedItem.ToString()}\\{quickSavesListBox.SelectedItem.ToString()}.png";
 
                 BitmapImage b = new BitmapImage();
 
@@ -420,6 +404,9 @@ namespace MEBetterSaves
         {
             if (datesListBox.SelectedItem != null && autoSavesListBox.SelectedItem != null)
             {
+                if (autoSavesListBox.SelectedIndex >= 0)
+                    AutoSavesSelectedIndex = autoSavesListBox.SelectedIndex;
+
                 var imageFile = Config["betterSaveGamesFolder"] + $"\\{ChapterNames[RadioButtonSelectedIndex]}\\{datesListBox.SelectedItem.ToString()}\\{autoSavesListBox.SelectedItem.ToString()}.png";
 
                 BitmapImage b = new BitmapImage();
