@@ -6,7 +6,7 @@
 ## Metro Exodus Better Save Games
 
 ### How to start saving:
-- Download the latest release or compile it yourself.
+- Download the latest release [HERE](https://github.com/oppahansi/MEBetterSaves/releases) MEBetterSaves.zip or compile it yourself.
 - Start the MEBetterSaves.exe
 - Choose the location where to save all the save games, dont choose metro save games folder
 - Thats it.
